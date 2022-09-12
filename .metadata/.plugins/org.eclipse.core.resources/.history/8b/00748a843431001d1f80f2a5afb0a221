@@ -1,0 +1,19 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import controler.ControlerMedicine;
+
+class ControlerMedicineTest {
+
+	@Test
+	void testCommonArea() {
+		ControlerMedicine cm = new ControlerMedicine();
+		String resultTest = "Ibuprofeno";
+		String result = cm.commonMedicine();
+		assertTrue(resultTest.equals(result));
+	}
+
+}

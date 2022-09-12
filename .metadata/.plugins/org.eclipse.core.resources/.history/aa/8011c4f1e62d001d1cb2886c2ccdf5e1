@@ -1,0 +1,160 @@
+package controler;
+
+import model.Crud;
+import model.Pain;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class ControlerPain implements Crud {
+	
+	private ArrayList<Pain> pain = new ArrayList<>();
+	private int k;
+	
+	public ControlerPain() {
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			pain.add(new Pain(format.parse("10/01/2021"), "Pressão", "Lado Direito", 2, 2, "sono"));
+			pain.add(new Pain(format.parse("15/11/2021"), "Pressão", "Lado Direito", 2, 5, "sono"));
+			pain.add(new Pain(format.parse("02/02/2022"), "Latejante", "Lado Direito", 3, 7, "ansiedade"));
+			pain.add(new Pain(format.parse("29/06/2022"), "Pulsadas", "Lado Esquerdo", 1, 2, "comida"));
+			pain.add(new Pain(format.parse("25/05/2022"), "Pressão", "Dois Lados", 2, 5, "estresse"));
+			pain.add(new Pain(format.parse("10/06/2022"), "Pulsadas", "Lado Esquerdo", 2, 5, "sono"));
+
+		} catch (ParseException e) {
+
+		}
+	}
+	
+	@Override
+	public boolean create(Object controlerPain) {
+		if (controlerPain != null) {
+			pain.add((Pain) controlerPain);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public void read(Object object) {
+		throw new UnsupportedOperationException("Not supported yet."); // Generated from
+																		// nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+	}
+
+	@Override
+	public boolean update(Date date) {
+		for(Pain p:pain) {
+			if(p.getDate().equals(date)) {
+				pain.remove(p);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public void delete(Date date) {
+		int index =0;
+		for(Pain p:pain) {
+			if(p.getDate().equals(date)) {
+				pain.remove(index);
+				break;
+			}
+			index ++;
+		}
+	}
+
+
+	public ArrayList<Pain> getPain() {
+		return pain;
+	}
+
+	public ArrayList<Pain> consultDate(Date startDate, Date endDate) {
+		ArrayList<Pain> list = new ArrayList<>();
+		for (Pain p : pain) {
+			if ((p.getDate().after(startDate) || p.getDate().equals(startDate))
+					&& (p.getDate().before(endDate) || p.getDate().equals(endDate))) {
+				list.add(p);
+			}
+		}
+		return list;
+	}
+
+	public String totalPain() {
+		return String.valueOf(pain.size());
+	}
+
+	public String calcMedia() {
+		double sum = 0;
+		for (Pain p : pain) {
+			sum += p.getIntensity();
+		}
+		double media = sum / pain.size();
+		return String.format("%.2f", media);
+	}
+
+	public String commonArea() {
+		int countRightSide = 0, countLeftSide = 0, countBothSides = 0, bigger = 0, i;
+		for (Pain p : pain) {
+			if (p.getArea().equals("Lado direito"))
+				countRightSide++;
+			if (p.getArea().equals("Lado esquerdo"))
+				countLeftSide++;
+			if (p.getArea().equals("Dois lados"))
+				countBothSides++;
+		}
+		int vector[] = new int[3];
+		vector[0] = countRightSide;
+		vector[1] = countLeftSide;
+		vector[2] = countBothSides;
+		for (i = 0; i < vector.length; i++) {
+			if (vector[i] > bigger) {
+				bigger = vector[i];
+			}
+		}
+		if (bigger == vector[0])
+			return "Lado direito".toUpperCase();
+		else if (bigger == vector[1])
+			return "Lado esquerdo".toUpperCase();
+		else
+			return "Dois lados".toUpperCase();
+	}
+
+	public String commonPain() {
+		
+		int pressure = 0, pulsing = 0, throbbing = 0, bigger = 0, i;
+		int j=0;
+		do {
+			for (Pain p : pain) {
+				if (p.getArea().equals("Pressão"))
+					pressure++;
+				if (p.getArea().equals("Pulsada"))
+					pulsing++;
+				if (p.getArea().equals("Latejante"))
+					throbbing++;
+			}
+			int vector[] = new int[3];
+			vector[0] = pressure;
+			vector[1] = pulsing;
+			vector[2] = throbbing;
+			for (i = 0; i < vector.length; i++) {
+				if (vector[i] > bigger) {
+					bigger = vector[i];
+				}
+			}
+			if (bigger == vector[0]) {
+				return "Pressão".toUpperCase();
+			} else if (bigger == vector[1]) {
+				return "Pulsada".toUpperCase();
+			} else {
+				return "Latejante".toUpperCase();
+			}
+			
+		} while(j<pain.size());
+
+	}
+
+}

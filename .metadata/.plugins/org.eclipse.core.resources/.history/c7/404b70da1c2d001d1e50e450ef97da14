@@ -1,0 +1,55 @@
+package controler;
+
+import java.util.ArrayList;
+import model.Medicine;
+
+public class ControlerMedicine {
+	
+	private ArrayList<Medicine> medicine = new ArrayList<>();
+	
+	public ControlerMedicine(){
+        medicine.add(new Medicine("Paracetamol", 1, "comprimido"));
+        medicine.add(new Medicine("Ibuprofeno", 2, "comprimido"));
+        medicine.add(new Medicine("Ibupril", 1, "comprimido"));
+        medicine.add(new Medicine("Ibuprofeno", 3, "comprimido"));
+        medicine.add(new Medicine("Ibuprofeno", 3, "comprimido"));
+        medicine.add(new Medicine("Ibuprofeno", 1, "comprimido"));
+        medicine.add(new Medicine("Paracetamol", 1, "comprimido"));
+    }
+	
+    public boolean create (Medicine m){
+        //if (m != null){
+        //    medicine.add(m);
+        //    return true;
+        //}else{
+        //    return false;
+        //}
+    	medicine.add(m);
+    	return true;
+    }
+    public ArrayList<Medicine> getMedicine(){
+        return medicine;
+    }
+    
+    public String commonMedicine(){
+        int ibuprofeno = 0, ibupril = 0, paracetamol = 0, bigger=0, i;
+        for(Medicine m: medicine){
+            if(m.getName().equals("Ibuprofeno"))  ibuprofeno++;
+            if(m.getName().equals("Ibupril")) ibupril++;
+            if(m.getName().equals("Paracetamol")) paracetamol++;
+        }
+        int vector [] = new int[3];
+        vector[0] = ibuprofeno;
+        vector[1] = ibupril;
+        vector[2] = paracetamol;
+        for (i = 0; i < vector.length; i++) {
+            if(vector[i] > bigger){
+                bigger = vector[i];
+            }            
+        }
+        if(bigger == vector[0])return "Ibuprofeno".toUpperCase();
+        else if(bigger == vector[1])return "Ibupril".toUpperCase();
+        else return "Paracetamol".toUpperCase();
+    }
+
+}

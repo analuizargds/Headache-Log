@@ -1,0 +1,84 @@
+package controler;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import model.Medicine;
+import model.Pain;
+
+public class ControlerMedicine {
+	
+	private ArrayList<Medicine> medicine = new ArrayList<>();
+	
+	public ControlerMedicine(){
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+			medicine.add(new Medicine("Paracetamol", 1, "Comprimido", format.parse("10/01/2021")));
+			medicine.add(new Medicine("Ibupril", 1, "Comprimido", format.parse("02/02/2022")));
+			medicine.add(new Medicine("Ibuprofeno", 3, "Comprimido", format.parse("29/06/2022")));
+			medicine.add(new Medicine("Ibuprofeno", 3, "Comprimido", format.parse("25/05/2022")));
+			medicine.add(new Medicine("Ibuprofeno", 2, "Comprimido", format.parse("15/11/2021")));
+			medicine.add(new Medicine("Ibuprofeno", 1, "Comprimido", format.parse("10/06/2022")));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    }
+	
+    public boolean create (Medicine m){
+        if (m != null){
+            medicine.add(m);
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+    
+    public boolean update(Date date) {
+		for(Medicine m:medicine) {
+			if(m.getDate().equals(date)) {
+				medicine.remove(m);
+				return true;
+			}
+		}
+		return false;
+	}
+    
+    public ArrayList<Medicine> getMedicine(){
+        return medicine;
+    }
+    
+    public String commonMedicine(){
+        int ibuprofeno = 0, ibupril = 0, paracetamol = 0, bigger=0, i;
+        for(Medicine m: medicine){
+            if(m.getName().equals("Ibuprofeno"))  ibuprofeno++;
+            if(m.getName().equals("Ibupril")) ibupril++;
+            if(m.getName().equals("Paracetamol")) paracetamol++;
+        }
+        int vector [] = new int[3];
+        vector[0] = ibuprofeno;
+        vector[1] = ibupril;
+        vector[2] = paracetamol;
+        for (i = 0; i < vector.length; i++) {
+            if(vector[i] > bigger){
+                bigger = vector[i];
+            }            
+        }
+        if(bigger == vector[0])return "Ibuprofeno".toUpperCase();
+        else if(bigger == vector[1])return "Ibupril".toUpperCase();
+        else return "Paracetamol".toUpperCase();
+    }
+    
+    public ArrayList<Medicine> getMedicineByDate(Date date) {
+    	ArrayList<Medicine> listMed = new ArrayList<>();
+    	for(Medicine m: medicine) {
+    		if(m.getDate().equals(date)) {
+    			listMed.add(m);
+    		}
+    	}
+    	return listMed;
+    }
+
+}

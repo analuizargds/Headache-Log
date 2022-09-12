@@ -1,0 +1,28 @@
+package test;
+
+import static org.junit.Assert.assertTrue;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import org.junit.jupiter.api.Test;
+
+import controler.ControlerMedicine;
+import model.Medicine;
+
+class ControlerMedicineTestCreate {
+
+	@Test
+	void testCreate() {
+		try {
+			ControlerMedicine cm = new ControlerMedicine();
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			Medicine m = new Medicine();
+			boolean result = cm.create(m);
+			assertTrue(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}

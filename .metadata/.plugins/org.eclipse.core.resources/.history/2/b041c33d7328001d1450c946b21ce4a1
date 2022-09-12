@@ -1,0 +1,18 @@
+package view;
+
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+
+public class MainFrame extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	public MainFrame() {
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		add(tabbedPane);
+
+	}
+
+}

@@ -1,0 +1,19 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import controler.ControlerPain;
+
+class testCalcMedia {
+
+	@Test
+	void testCalcMedia() {
+		ControlerPain cp = new ControlerPain();
+		String resultTest = "4.43";
+		String result = cp.calcMedia();
+		assertTrue(resultTest.equals(result));
+	}
+
+}

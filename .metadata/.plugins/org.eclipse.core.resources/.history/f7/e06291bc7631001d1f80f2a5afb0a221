@@ -1,0 +1,14 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class testee {
+
+	@Test
+	void testCommonPain() {
+		fail("Not yet implemented");
+	}
+
+}

@@ -1,0 +1,19 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import controler.ControlerPain;
+
+class ControlerMedicineTest {
+
+	@Test
+	void testCommonArea() {
+		ControlerPain cp = new ControlerPain();
+		String resultTest = "Lado Direito";
+		String result = cp.commonArea();
+		assertTrue(resultTest.equals(result));
+	}
+
+}

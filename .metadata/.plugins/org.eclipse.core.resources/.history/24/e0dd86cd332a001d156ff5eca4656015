@@ -1,0 +1,463 @@
+package view;
+
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
+
+import application.Main;
+
+import javax.swing.JTabbedPane;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import controler.ControlerMedicine;
+import controler.ControlerPain;
+import model.Medicine;
+import model.Pain;
+
+import javax.swing.JCheckBox;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JSpinner;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import java.awt.event.ActionListener;
+import java.util.Date;
+import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+public class MainFrame extends JFrame {
+	
+	ControlerPain cp = Main.cp;
+    ControlerMedicine cm = Main.cm;
+    List<Pain> list;
+
+	private JPanel contentPane;
+	private JTextField txtTime;
+	private JTextField txtCause;
+	private JTextField txtName;
+	private JTextField txtQtd;
+	private JTable tablePain;
+	private JScrollPane jScrollPane1;
+	private JTable tableDateSearch;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MainFrame frame = new MainFrame();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	public final void populateTable(){
+        DefaultTableModel tableAllPain = (DefaultTableModel)tablePain.getModel();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        List<Pain> allPain = cp.getPain();
+        for(Pain p: allPain){
+            String date = format.format(p.getDate());
+            String variety = p.getVariety();
+            String area = p.getArea();
+            int time = p.getTime();
+            int intensity = p.getIntensity();
+            String cause = p.getCause();
+            
+            Object[] newPain = new Object[]{
+                date,
+                variety,
+                area,
+                time,
+                intensity,
+                cause
+            };          
+            tableAllPain.addRow(newPain);
+        }
+	}
+	
+	
+
+	/**
+	 * Create the frame.
+	 * @param list 
+	 */
+	public MainFrame() {
+		
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 750, 450);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(0, 0, 734, 411);
+		contentPane.add(tabbedPane);
+		
+		JPanel panel = new JPanel();
+		tabbedPane.addTab("Tela Inicial", null, panel, null);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("TOTAL DE DORES");
+		lblNewLabel.setBounds(10, 100, 113, 14);
+		panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("INTENSIDADE MÉDIA");
+		lblNewLabel_1.setBounds(10, 150, 129, 14);
+		panel.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("DOR MAIS COMUM");
+		lblNewLabel_2.setBounds(10, 200, 129, 14);
+		panel.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("ÁREA MAIS COMUM");
+		lblNewLabel_3.setBounds(10, 250, 141, 14);
+		panel.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("MEDICAÇÃO MAIS USADA");
+		lblNewLabel_4.setBounds(10, 300, 159, 14);
+		panel.add(lblNewLabel_4);
+		
+		JLabel lbTotalPain = new JLabel(cp.totalPain());
+		lbTotalPain.setBounds(195, 100, 46, 14);
+		panel.add(lbTotalPain);
+		
+		JLabel lblIntensityAverage = new JLabel(cp.calcMedia());
+		lblIntensityAverage.setBounds(195, 150, 46, 14);
+		panel.add(lblIntensityAverage);
+		
+		JLabel lbCommonPain = new JLabel(cp.commonPain());
+		lbCommonPain.setBounds(195, 200, 79, 14);
+		panel.add(lbCommonPain);
+		
+		JLabel lbCommonArea = new JLabel(cp.commonArea());
+		lbCommonArea.setBounds(195, 250, 99, 14);
+		panel.add(lbCommonArea);
+		
+		JLabel lblCommonMedicine = new JLabel(cm.commonMedicine());
+		lblCommonMedicine.setBounds(195, 300, 99, 14);
+		panel.add(lblCommonMedicine);
+		
+		JLabel lblTitle = new JLabel("RELATÓRIO GERAL");
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 26));
+		lblTitle.setBounds(230, 29, 259, 32);
+		panel.add(lblTitle);
+		
+		JPanel panel_1 = new JPanel();
+		tabbedPane.addTab("Nova Dor", null, panel_1, null);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel_5 = new JLabel("DATA:");
+		lblNewLabel_5.setBounds(10, 20, 46, 14);
+		panel_1.add(lblNewLabel_5);
+		
+		JLabel lblNewLabel_6 = new JLabel("TIPO:");
+		lblNewLabel_6.setBounds(10, 60, 46, 14);
+		panel_1.add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_7 = new JLabel("ÁREA:");
+		lblNewLabel_7.setBounds(10, 100, 46, 14);
+		panel_1.add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_8 = new JLabel("DURAÇÃO:");
+		lblNewLabel_8.setBounds(10, 140, 83, 14);
+		panel_1.add(lblNewLabel_8);
+		
+		JLabel lblNewLabel_13 = new JLabel("horas");
+		lblNewLabel_13.setBounds(193, 140, 46, 14);
+		panel_1.add(lblNewLabel_13);
+		
+		JLabel lblNewLabel_9 = new JLabel("INTENSIDADE:");
+		lblNewLabel_9.setBounds(10, 180, 83, 14);
+		panel_1.add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_10 = new JLabel("CAUSA:");
+		lblNewLabel_10.setBounds(10, 220, 126, 14);
+		panel_1.add(lblNewLabel_10);
+		
+		JLabel lblName = new JLabel("NOME:");
+		lblName.setBounds(10, 300, 46, 14);
+		panel_1.add(lblName);
+		
+		JLabel lblQtd = new JLabel("QUANTIDADE:");
+		lblQtd.setBounds(10, 340, 83, 14);
+		panel_1.add(lblQtd);
+		
+		txtTime = new JTextField();
+		txtTime.setBounds(103, 137, 86, 20);
+		panel_1.add(txtTime);
+		txtTime.setColumns(10);
+		
+		txtCause = new JTextField();
+		txtCause.setBounds(103, 217, 86, 20);
+		panel_1.add(txtCause);
+		txtCause.setColumns(10);
+		
+		txtName = new JTextField();
+		txtName.setBounds(103, 297, 86, 20);
+		panel_1.add(txtName);
+		txtName.setColumns(10);
+		
+		txtQtd = new JTextField();
+		txtQtd.setBounds(103, 337, 86, 20);
+		panel_1.add(txtQtd);
+		txtQtd.setColumns(10);
+		
+		JComboBox cmbxUnit = new JComboBox();
+		cmbxUnit.setBounds(199, 336, 106, 22);
+		panel_1.add(cmbxUnit);
+		cmbxUnit.addItem("SELECIONAR");
+		cmbxUnit.addItem("ml");
+		cmbxUnit.addItem("mg");
+		cmbxUnit.addItem("Comprimido");
+		
+		JComboBox cmbxVariety = new JComboBox();
+		cmbxVariety.setBounds(103, 56, 106, 22);
+		panel_1.add(cmbxVariety);
+		cmbxVariety.addItem("SELECIONAR");
+		cmbxVariety.addItem("Pressão");
+		cmbxVariety.addItem("Latejante");
+		cmbxVariety.addItem("Pulsadas");
+		
+		
+		JComboBox cmbxArea = new JComboBox();
+		cmbxArea.setBounds(103, 96, 106, 22);
+		panel_1.add(cmbxArea);
+		cmbxArea.addItem("SELECIONAR");
+		cmbxArea.addItem("Lado Direito");
+		cmbxArea.addItem("Lado Esquerdo");
+		cmbxArea.addItem("Dois Lados");
+		
+		JCheckBox chckbxMedicine = new JCheckBox("Medicação");
+		chckbxMedicine.setSelected(true);
+		chckbxMedicine.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (chckbxMedicine.isSelected()){
+		            lblName.setVisible(true);
+		            lblQtd.setVisible(true);
+		            txtName.setVisible(true);
+		            txtQtd.setVisible(true);
+		            cmbxUnit.setVisible(true);
+		        } else{
+		        	lblName.setVisible(false);
+		            lblQtd.setVisible(false);
+		            txtName.setVisible(false);
+		            txtQtd.setVisible(false);
+		            cmbxUnit.setVisible(false);
+		        }
+			}
+		});
+		chckbxMedicine.setBounds(6, 260, 97, 23);
+		panel_1.add(chckbxMedicine);
+		
+		JSpinner spinner = new JSpinner();
+		spinner.setBounds(103, 177, 30, 20);
+		panel_1.add(spinner);
+		
+		JFormattedTextField txtDate = new JFormattedTextField();
+		txtDate.setText("");
+		txtDate.setBounds(103, 17, 86, 20);
+		panel_1.add(txtDate);
+		
+		
+		try {
+            txtDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+		
+		
+		JButton btnSave = new JButton("Salvar");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Pain pain = new Pain();
+		        
+		        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		        
+		        try{
+		        pain.setDate(format.parse(txtDate.getText()));
+		        pain.setVariety(cmbxVariety.getSelectedItem().toString());
+		        pain.setArea(cmbxArea.getSelectedItem().toString());
+		        pain.setTime(Integer.parseInt(txtTime.getText()));
+		        pain.setIntensity((int) spinner.getValue());
+		        pain.setCause(txtCause.getText());
+		        
+		        Medicine medicine = new Medicine();
+		        
+		        medicine.setName(txtName.getText());
+		        medicine.setDosage(Double.parseDouble(txtQtd.getText()));
+		        medicine.setUnit(cmbxUnit.getSelectedItem().toString());
+		        medicine.setDate(format.parse(txtDate.getText()));
+		        
+		        if (cp.create(pain)){
+		            
+		            JOptionPane.showMessageDialog(null, "Cadastrado!");
+		            txtDate.setValue("");
+		            cmbxVariety.setSelectedItem("selecionar");
+		            cmbxArea.setSelectedItem("selecionar");
+		            txtTime.setText("");
+		            spinner.setValue(0);
+		            txtCause.setText("");   
+		            txtName.setText("");
+		            txtQtd.setText("");
+		            cmbxUnit.setSelectedItem("selecionar");
+		            
+		        } else{
+		            JOptionPane.showMessageDialog(null, "Não cadastrado!");
+		        }
+		        }catch (ParseException ex){
+		            JOptionPane.showMessageDialog(null, "Data inválida");
+		        }
+		        System.out.println("clicado");
+				
+			}
+			
+		});
+		btnSave.setBounds(630, 336, 89, 23);
+		panel_1.add(btnSave);
+		
+
+		
+		JPanel panel_2 = new JPanel();
+		tabbedPane.addTab("Registros", null, panel_2, null);
+		panel_2.setLayout(null);
+		
+		tablePain = new JTable();
+		tablePain.setModel(new DefaultTableModel(
+	            new Object [][] {
+	            },
+	            new String [] {
+	                "Data", "Tipo", "Área", "Duração", "Intensidade", "Causa"
+	            }
+	        ) {
+	            boolean[] canEdit = new boolean [] {
+	                false, false, false, false, false, false
+	            };
+
+	            public boolean isCellEditable(int row, int column) {
+	                return canEdit [column];
+	            }
+	        });
+		tablePain.setBounds(10, 36, 709, 336);
+		
+		jScrollPane1 = new JScrollPane();
+		jScrollPane1.setViewportView(tablePain);
+		jScrollPane1.setVisible(true);
+		jScrollPane1.setBounds(5,5,714, 370);
+		panel_2.add(jScrollPane1);
+
+		
+		populateTable();
+		
+		
+		JPanel panel_3 = new JPanel();
+		tabbedPane.addTab("Consulta por Data", null, panel_3, null);
+		panel_3.setLayout(null);
+		
+		JLabel lblNewLabel_11 = new JLabel("Data Inicial:");
+		lblNewLabel_11.setBounds(40, 14, 68, 14);
+		panel_3.add(lblNewLabel_11);
+
+		
+		JLabel lblNewLabel_12 = new JLabel("Data Final:");
+		lblNewLabel_12.setBounds(240, 14, 68, 14);
+		panel_3.add(lblNewLabel_12);
+		
+		
+		JFormattedTextField txtStartDate = new JFormattedTextField();
+		txtStartDate.setBounds(118, 11, 68, 20);
+		panel_3.add(txtStartDate);
+		
+		try {
+			txtStartDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+		
+		JFormattedTextField txtEndDate = new JFormattedTextField();
+		txtEndDate.setBounds(312, 11, 68, 20);
+		panel_3.add(txtEndDate);
+		
+		try {
+			txtEndDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+			
+			JButton btnConsult = new JButton("Consultar");
+			btnConsult.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try{
+			            DefaultTableModel tableByDate = (DefaultTableModel) tableDateSearch.getModel();
+			            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			            Date start = (Date) format.parse(txtStartDate.getText());
+			            Date end = (Date) format.parse(txtEndDate.getText());
+			            List<Pain> list = cp.consultDate(start, end);
+			            for (Pain p : list) {
+			                String date = format.format(p.getDate());
+			                String variety = p.getVariety();
+			                String area = p.getArea();
+			                int time = p.getTime();
+			                int intensity = p.getIntensity();
+			                String cause = p.getCause();
+
+			                Object[] painByDate = new Object[]{
+			                    date,
+			                    variety,
+			                    area,
+			                    time,
+			                    intensity,
+			                    cause
+			                };
+			                tableByDate.addRow(painByDate);
+			            }
+
+			        }catch(ParseException ex){
+			        }
+					
+				}
+			});
+			btnConsult.setBounds(600, 10, 89, 23);
+			panel_3.add(btnConsult);
+			
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 54, 709, 318);
+			panel_3.add(scrollPane);
+			
+			tableDateSearch = new JTable();
+			scrollPane.setViewportView(tableDateSearch);
+			tableDateSearch.setModel(new javax.swing.table.DefaultTableModel(
+	            new Object [][] {
+
+	            },
+	            new String [] {
+	                "Data", "Tipo", "Área", "Duração", "Intensidade", "Causa"
+	            }
+	        ) {
+	            boolean[] canEdit = new boolean [] {
+	                false, false, false, false, false, false
+	            };
+
+	            public boolean isCellEditable(int rowIndex, int columnIndex) {
+	                return canEdit [columnIndex];
+	            }
+	        });
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+	}
+	
+}

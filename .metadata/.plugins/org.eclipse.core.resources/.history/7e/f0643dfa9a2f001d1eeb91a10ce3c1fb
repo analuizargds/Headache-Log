@@ -1,0 +1,13 @@
+package model;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+public interface Crud {
+
+    public abstract boolean create(Object object);
+    public abstract ArrayList<Object> read(Date date);
+    public abstract boolean update(Date date);
+    public abstract void delete(Date date);
+
+}

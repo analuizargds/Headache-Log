@@ -1,0 +1,21 @@
+package model;
+
+public class Woman extends Person {
+	private boolean menstruation;
+	private String name;
+	
+	public Woman(boolean menstruation, String name) {
+		this.setMenstruation(menstruation);
+		this.name = super.getName();
+	}
+
+	public boolean getMenstruation() {
+		return menstruation;
+	}
+
+	public void setMenstruation(boolean menstruation) {
+		this.menstruation = menstruation;
+	}
+	
+	
+}

@@ -1,0 +1,19 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import controler.ControlerPain;
+
+class ControlerPainTest {
+
+	@Test
+	void testCalcMedia() {
+		ControlerPain cp = new ControlerPain();
+		String resultTest = (String)4.42; 
+		String result = cp.calcMedia();
+		fail("Not yet implemented");
+	}
+
+}

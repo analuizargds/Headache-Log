@@ -1,0 +1,161 @@
+package controler;
+
+/**
+ * A classe ControlerMedicine estabelece uma ligação entre a classe  {@link Medicine} (model) e a {@link MainScreen} (view).
+ * 
+ * Implementa a Interface CRUD.
+ * 
+ * <p>
+ * Essa classe é responsável por gerenciar os remédios administrados.
+ * <p>
+ * 
+ * @see Medicine
+ * @see CRUD
+ * @author Ana Luiza Rodrigues da Silva
+ */
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import model.Crud;
+import model.Medicine;
+
+public class ControlerMedicine implements Crud{
+	
+	private ArrayList<Medicine> medicine = new ArrayList<>();
+	
+	/**
+	 * O construtor padrão da classe, com dados mocados.
+	 */
+	public ControlerMedicine(){
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+			medicine.add(new Medicine("paracetamol", 1, "Comprimido", format.parse("10/01/2021")));
+			medicine.add(new Medicine("ibupril", 1, "Comprimido", format.parse("02/02/2022")));
+			medicine.add(new Medicine("ibuprofeno", 3, "Comprimido", format.parse("29/06/2022")));
+			medicine.add(new Medicine("ibuprofeno", 3, "Comprimido", format.parse("25/05/2022")));
+			medicine.add(new Medicine("ibuprofeno", 2, "Comprimido", format.parse("15/11/2021")));
+			medicine.add(new Medicine("ibuprofeno", 1, "Comprimido", format.parse("10/06/2022")));
+			medicine.add(new Medicine("paracetamol", 1, "Comprimido", format.parse("04/06/2022")));
+		} catch (ParseException e) {
+		}
+    }
+	
+	/**
+	 * Esse método cria um Medicine.
+	 * É um método implementado da Interface CRUD.
+	 * @param Objeto, objeto a ser adicionado a lista.
+	 * @return Retorna true ou false.
+	 */
+	@Override
+    public boolean create (Object controlerMedicine){
+        if (controlerMedicine != null){
+            medicine.add((Medicine) controlerMedicine);
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+	
+	/**
+	 * Esse método procura uma dor na lista.
+	 * É um método implementado da Interface CRUD.
+	 * @param Data utilizada para procurar um medicamento na lista.
+	 * @return Retorna um Array com um objeto do tipo Medicine.
+	 */
+	@Override
+	public ArrayList<Medicine> read(Date date) {
+    	ArrayList<Medicine> list = new ArrayList<>();
+		for(Medicine m:medicine) {
+			if(m.getDate().equals(date)) {
+				list.add(m);
+			}
+		}
+		return list;
+	}
+    
+	/**
+	 * Esse método atualiza um medicamento.
+	 * É um método implementado da Interface CRUD.
+	 * @param Data do medicamento a ser atualizado.
+	 * @return Retorna true ou false.	 * 
+	 */
+	@Override
+    public boolean update(Date date) {
+		for(Medicine m:medicine) {
+			if(m.getDate().equals(date)) {
+				medicine.remove(m);
+				return true;
+			}
+		}
+		return false;
+	}    
+    
+    /**
+     * Esse método deleta um medicamento.
+     * É um método implementado da Interface CRUD.
+     * @param Data do medicamento a ser deletado.
+     */
+	@Override
+    public void delete(Date date) {
+		int index =0;
+		for(Medicine m:medicine) {
+			if(m.getDate().equals(date)) {
+				medicine.remove(index);
+				break;
+			}
+			index ++;
+		}
+	}
+    
+    /**
+     * Esse método retorna todos os medicamentos da lista.
+     * @return Retorna todos os medicamentos da lista
+     */
+    public ArrayList<Medicine> getMedicine(){
+        return medicine;
+    }
+    
+    /**
+     * Esse método mostra o medicamento mais utilizado.
+     * @return Retorna o nome do medicamento mais utilizado.
+     */
+    public String commonMedicine(){
+        int ibuprofeno = 0, ibupril = 0, paracetamol = 0, bigger=0, i;
+        for(Medicine m: medicine){
+            if(m.getName().equals("ibuprofeno"))  ibuprofeno++;
+            if(m.getName().equals("ibupril")) ibupril++;
+            if(m.getName().equals("paracetamol")) paracetamol++;
+        }
+        int vector [] = new int[3];
+        vector[0] = ibuprofeno;
+        vector[1] = ibupril;
+        vector[2] = paracetamol;
+        for (i = 0; i < vector.length; i++) {
+            if(vector[i] > bigger){
+                bigger = vector[i];
+            }            
+        }
+        if(bigger == vector[0])return "ibuprofeno".toUpperCase();
+        else if(bigger == vector[1])return "ibupril".toUpperCase();
+        else return "paracetamol".toUpperCase();
+    }
+    
+    /**
+     * Esse método mostra o medicamento utilizado em uma data específica.
+     * @param date Data utilizada para procurar o medicamento.
+     * @return Retorna um Array com um Objeto do tipo Medicine.
+     */
+    public ArrayList<Medicine> getMedicineByDate(Date date) {
+    	ArrayList<Medicine> listMed = new ArrayList<>();
+    	for(Medicine m: medicine) {
+    		if(m.getDate().equals(date)) {
+    			listMed.add(m);
+    		}
+    	}
+    	return listMed;
+    }
+}

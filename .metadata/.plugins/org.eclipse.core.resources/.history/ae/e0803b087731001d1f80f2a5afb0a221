@@ -1,0 +1,19 @@
+package test;
+
+import static org.junit.Assert.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+import controler.ControlerPain;
+
+class ControlerPainTest {
+
+	@Test
+	void testTotalPain() {
+		ControlerPain cp = new ControlerPain();
+		String resultTest = "7";
+		String result = cp.totalPain();
+		assertTrue(resultTest.equals(result));
+	}
+
+}
